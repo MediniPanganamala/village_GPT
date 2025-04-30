@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dream Interior Generator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+
+<body>
+  <section class="hero-section">
+    <h1>Dream Interior Generator</h1>
+    <p>Upload an empty room and let AI decorate it into your dream space!</p>
+  </section>
+
+  <section class="form-card">
+    <form id="upload-form" enctype="multipart/form-data" class="form-grid">
+      <div class="input-block">
+        <label for="image">🖼️ Upload Room Image</label>
+        <input type="file" id="image" name="image" accept="image/*" required />
+      </div>
+
+      <div class="input-block">
+        <label for="prompt">🎨 Your Dream Style</label>
+        <input type="text" id="prompt" name="prompt" placeholder="e.g. Futuristic minimal bedroom" />
+      </div>
+
+      <div class="input-block">
+        <label for="width">↔️ Width (px)</label>
+        <input type="number" id="width" name="width" value="512" min="8" step="8" />
+      </div>
+
+      <div class="input-block">
+        <label for="height">↕️ Height (px)</label>
+        <input type="number" id="height" name="height" value="512" min="8" step="8" />
+      </div>
+
+      <button type="submit" class="generate-btn">🎨 Generate Design</button>
+    </form>
+  </section>
+
+  <section class="output-section">
+    <div id="result-container">
+      <h2>Generated Room:</h2>
+      <img id="result-image" src="" alt="Generated Room Design" style="display: none;" />
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById("upload-form");
+    const resultImage = document.getElementById("result-image");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      const response = await fetch("/generate", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const imageUrl = URL.createObjectURL(blob);
+        resultImage.src = imageUrl;
+        resultImage.style.display = "block";
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>
+
+
