@@ -20,7 +20,6 @@ huggingface_hub.login(token=HUGGINGFACE_TOKEN)
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
-C:\Users\medin\Downloads\roomgpt_cpu\backend
 try:
     # Update model loading to use token through huggingface_hub
     huggingface_hub.login(token=HUGGINGFACE_TOKEN)
